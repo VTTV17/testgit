@@ -1,0 +1,72 @@
+name: '[Dashboard] Vi flow'
+
+permissions:
+  actions: write       # Necessary to cancel workflow executions
+  checks: write        # Necessary to write reports
+  pull-requests: write # Necessary to comment on PRs
+
+on:
+  schedule:
+    - cron: "30 13 * * *"  # 8:30 PM
+
+jobs:
+  Selenium-Ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '22'
+          distribution: 'adopt'
+
+      - name: Cache APT packages and lists
+        uses: actions/cache@v3
+        with:
+          path: |
+            /var/cache/apt
+            /var/lib/apt/lists
+          key: apt-cache-${{ runner.os }}-${{ hashFiles('**/build.gradle') }}
+          restore-keys: |
+            apt-cache-${{ runner.os }}-
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Install dependencies
+        run: |
+          mvn install -DskipTests
+          mvn clean
+          mvn compile
+      - name: Run tests
+        run: mvn --batch-mode test "-DsuiteFile=test_config/web/ViAllFunction.xml"
+
+      - name: Upload all recording .mp4 files
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: MP4 Files
+          path: '**/*.mp4'
+
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Reports
+          path: |
+            **/html/index.html
+            **/reportng.css
+            **/reportng.js
+            **/suite*_test*_results.html
