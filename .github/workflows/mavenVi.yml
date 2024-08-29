@@ -1,11 +1,11 @@
 name: '[Dashboard] Vi flow'
-# on:
-#   push:
-#     branches:
-#       - main
 on:
-  schedule:
-    - cron: "30 00 * * *"  # 7:30 AM GMT+7
+  push:
+    branches:
+      - main
+# on:
+#   schedule:
+#     - cron: "30 00 * * *"  # 7:30 AM GMT+7
 jobs:
   clone-git-then-build-test:
     runs-on: ubuntu-20.04
