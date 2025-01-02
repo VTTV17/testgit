@@ -1,0 +1,14 @@
+name: Clone Gitlab Repository
+on:
+  workflow_dispatch:
+jobs:
+  clone-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub Repository
+        uses: actions/checkout@v3
+      - name: Clone Gitlab Repository
+        run: |
+          git clone https://${{ secrets.VPN_USERNAME}}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/hang.pham/GoSELL-Automation.git
+      - name: List cloned files
+        run: ls -la ./GoSELL-Automation
