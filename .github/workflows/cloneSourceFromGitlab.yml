@@ -9,6 +9,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Clone Gitlab Repository
         run: |
-          git clone https://${{ secrets.VPN_USERNAME}}:${{ secrets.GITLAB_TOKEN }}@gitlab.com/hang.pham/GoSELL-Automation.git
+          git clone https://${{ secrets.GITLAB_TOKEN }}@git.mediastep.com/hang.pham/GoSELL-Automation.git
       - name: List cloned files
         run: ls -la ./GoSELL-Automation
