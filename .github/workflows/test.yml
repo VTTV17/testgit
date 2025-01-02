@@ -1,4 +1,4 @@
-name: 'Vi test environment variation'
+name: 'Vi test environment variable'
 # on:
 #   push:
 #     branches:
@@ -24,5 +24,8 @@ jobs:
     steps:
       - run: |
           echo "Environment: $ENVIRONMENT"
+          env:
+          ENVIRONMENT: ${{ inputs.environment }}
+
 
  
