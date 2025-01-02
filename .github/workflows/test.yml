@@ -21,11 +21,12 @@ on:
 jobs:
   log-the-inputs:
     runs-on: ubuntu-latest
+    env:
+          ENVIRONMENT: ${{ inputs.environment }}
     steps:
       - run: |
           echo "Environment: $ENVIRONMENT"
-          env:
-          ENVIRONMENT: ${{ inputs.environment }}
+          
 
 
  
