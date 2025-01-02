@@ -1,4 +1,4 @@
-name: 'Workflow use available action'
+name: 'Workflow use available action 1'
 on:
   push:
     branches:
