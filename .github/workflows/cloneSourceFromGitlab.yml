@@ -1,4 +1,4 @@
-name: Clone Gitlab Repository
+name: Clone Gitlab Repository use vpn
 on:
   workflow_dispatch:
 jobs:
@@ -7,8 +7,29 @@ jobs:
     steps:
       - name: Checkout GitHub Repository
         uses: actions/checkout@v3
-      - name: Clone Gitlab Repository
+      # Cài đặt OpenVPN
+      - name: Install OpenVPN
         run: |
-          git clone https://${{ secrets.GITLAB_TOKEN }}@git.mediastep.com/hang.pham/GoSELL-Automation.git
-      - name: List cloned files
-        run: ls -la ./GoSELL-Automation
+          sudo apt-get update
+          sudo apt-get install -y openvpn
+
+      # Tạo file cấu hình VPN từ GitHub Secret
+      - name: Configure VPN
+        run: |
+          echo -e "${{ secrets.VPN_USERNAME }}\n${{ secrets.VPN_PASSWORD }}" > vpn_auth.txt
+
+      # Kết nối VPN
+      - name: Connect to VPN
+        run: |
+          sudo openvpn --config client.ovpn --auth-user-pass vpn_auth.txt --daemon
+          sleep 10  # Chờ VPN kết nối
+
+      # Kiểm tra kết nối
+      - name: Verify VPN Connection
+        run: curl ifconfig.me
+      
+      # - name: Clone Gitlab Repository
+      #   run: |
+      #     git clone https://${{ secrets.GITLAB_TOKEN }}@git.mediastep.com/hang.pham/GoSELL-Automation.git
+      # - name: List cloned files
+      #   run: ls -la ./GoSELL-Automation
