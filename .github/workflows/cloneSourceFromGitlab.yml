@@ -16,7 +16,7 @@ jobs:
       # Tạo file cấu hình VPN từ GitHub Secret
       - name: Configure VPN
         run: |
-          echo "${{ secrets.VPN_CONFIG1 }}" | base64 --decode > vpn_config.ovpn
+          echo "${{ secrets.VPN_CONFIG }}" | base64 --decode > vpn_config.ovpn
           echo -e "${{ secrets.VPN_USERNAME }}\n${{ secrets.VPN_PASSWORD }}" > vpn_auth.txt
 
       # Kết nối VPN
