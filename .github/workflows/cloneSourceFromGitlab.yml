@@ -29,9 +29,9 @@ jobs:
       - name: Verify VPN Connection
         run: curl ifconfig.me
 
-      - name: Test Connectivity
-        run: |
-          ping -c 4 git.mediastep.com
+      - name: Verify VPN Interface
+        run: ip addr show tun0
+
 
       
       # # Clone GitLab Repository
