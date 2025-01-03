@@ -16,12 +16,13 @@ jobs:
       # Tạo file cấu hình VPN từ GitHub Secret
       - name: Configure VPN
         run: |
+          echo "${{ secrets.VPN_CONFIG1 }}" | base64 --decode > vpn_config.ovpn
           echo -e "${{ secrets.VPN_USERNAME }}\n${{ secrets.VPN_PASSWORD }}" > vpn_auth.txt
 
       # Kết nối VPN
       - name: Connect to VPN
         run: |
-          sudo openvpn --config client.ovpn --auth-user-pass vpn_auth.txt --daemon
+          sudo openvpn --config vpn_config.ovpn --auth-user-pass vpn_auth.txt --daemon
           sleep 10  # Chờ VPN kết nối
 
       # Kiểm tra kết nối
