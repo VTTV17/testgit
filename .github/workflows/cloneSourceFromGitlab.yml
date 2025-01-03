@@ -28,9 +28,10 @@ jobs:
       # Kiểm tra kết nối
       - name: Verify VPN Connection
         run: curl ifconfig.me
-      
-      # - name: Clone Gitlab Repository
-      #   run: |
-      #     git clone https://${{ secrets.GITLAB_TOKEN }}@git.mediastep.com/hang.pham/GoSELL-Automation.git
-      # - name: List cloned files
-      #   run: ls -la ./GoSELL-Automation
+
+      # Clone gitlab repo
+      - name: Clone Gitlab Repository
+        run: |
+          git clone https://${{ secrets.GITLAB_TOKEN }}@git.mediastep.com/hang.pham/GoSELL-Automation.git
+      - name: List cloned files
+        run: ls -la ./GoSELL-Automation
