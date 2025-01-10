@@ -1,4 +1,4 @@
-name: '[Dashboard] Vi flow'
+name: '[Dashboard][SF] BuyLink'
   workflow_dispatch:
 jobs:
   clone-git-then-build-test:
