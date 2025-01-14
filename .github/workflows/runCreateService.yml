@@ -74,9 +74,9 @@ jobs:
       - name: Replace env variables
         run: |
           cd GoSELL-Automation
-          sed -i 's|environment=.*|environment=${{ inputs.environment }}|' config.properties
-          sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' config.properties
-          sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' config.properties
+          sed -i 's|environment=.*|environment=${{ inputs.environment }}|' src/main/resources/config.properties
+          sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' src/main/resources/config.properties
+          sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' src/main/resources/config.properties
 
       - name: Confirm changes
         run: |
