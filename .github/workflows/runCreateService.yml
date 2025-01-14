@@ -5,6 +5,7 @@ on:
       environment:
         description: 'Environment to run tests'
         default: "STAG"
+        type: choice
         options:
           - CA
           - STAG
@@ -13,12 +14,14 @@ on:
       languageSF:
         description: 'Language on SSR to run tests'
         default: "VIE"
+        type: choice
         options:
           - VIE
           - ENG
       languageDB:
         description: 'Language on Dashboard to run tests'
         default: "VIE"
+        type: choice
         options:
           - VIE
           - ENG
