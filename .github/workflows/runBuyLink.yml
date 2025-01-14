@@ -1,5 +1,31 @@
 name: '[Dashboard][SF] BuyLink'
+on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests'
+        default: "STAG"
+        type: choice
+        options:
+          - CA
+          - STAG
+          - PROD
+          - PREPROD
+      languageSF:
+        description: 'Language on SSR to run tests'
+        default: "VIE"
+        type: choice
+        options:
+          - VIE
+          - ENG
+      languageDB:
+        description: 'Language on Dashboard to run tests'
+        default: "VIE"
+        type: choice
+        options:
+          - VIE
+          - ENG
+
 jobs:
   clone-git-then-build-test:
     runs-on: ubuntu-20.04
@@ -47,7 +73,18 @@ jobs:
         run: |
           cd GoSELL-Automation
           git checkout main
- 
+
+      - name: Replace env variables
+        run: |
+            cd GoSELL-Automation
+            sed -i 's|environment=.*|environment=${{ inputs.environment }}|' src/main/resources/config.properties
+            sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' src/main/resources/config.properties
+            sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' src/main/resources/config.properties
+
+      - name: Confirm changes
+        run: |
+          cd GoSELL-Automation
+          cat src/main/resources/config.properties
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
