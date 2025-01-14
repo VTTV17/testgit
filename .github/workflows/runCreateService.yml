@@ -81,7 +81,7 @@ jobs:
       - name: Confirm changes
         run: |
           cd GoSELL-Automation
-          cat .env
+          cat src/main/resources/config.properties
  
       - name: Set up Java
         uses: actions/setup-java@v3
