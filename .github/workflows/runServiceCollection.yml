@@ -22,17 +22,9 @@ on:
         options:
           - VIE
           - ENG
-  workflow_run:
-    workflows: ["[Dashboard][SF] CreateService"]
-    types:
-      - completed
 jobs:
   clone-git-then-build-test:
     runs-on: ubuntu-20.04
-    outputs:
-          environment: ${{ steps.set-data.outputs.environment }}
-          languageSF: ${{ steps.set-data.outputs.languageSF }}
-          languageDB: ${{ steps.set-data.outputs.languageDB }}
     steps:
       - name: Determine config variable
         env:
@@ -99,14 +91,14 @@ jobs:
       - name: Replace env variables
         run: |
           cd GoSELL-Automation
-          sed -i 's|environment=.*|environment=${{ inputs.environment }}|' config.properties
-          sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' config.properties
-          sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' config.properties
+          sed -i 's|environment=.*|environment=${{ inputs.environment }}|' src/main/resources/config.properties
+          sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' src/main/resources/config.properties
+          sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' src/main/resources/config.properties
 
       - name: Confirm changes
         run: |
-          cd gitlab-source
-          cat .env
+          cd GoSELL-Automation
+          cat src/main/resources/config.properties
           
       - name: Set up Java
         uses: actions/setup-java@v3
@@ -138,10 +130,10 @@ jobs:
           cd GoSELL-Automation
           mvn install -DskipTests
  
-      # - name: Run tests
-      #   run: |
-      #     cd GoSELL-Automation
-      #     mvn --batch-mode test "-DsuiteFile=test_config/web/serviceCollectionTest.xml"
+      - name: Run tests
+        run: |
+          cd GoSELL-Automation
+          mvn --batch-mode test "-DsuiteFile=test_config/web/serviceCollectionTest.xml"
           
       # - name: Upload all recording .mp4 files
       #   if: always()
@@ -162,14 +154,7 @@ jobs:
             **/reportng.js
             **/suite*_test*_results.html
             **/ExtentReport.html
-            
-      - name: Set data
-        id: set-data
-        run: |
-          echo "::set-output name=environment::${{ inputs.environment }}"
-          echo "::set-output name=languageSF::${{ inputs.languageSF }}"
-          echo "::set-output name=languageDB::${{ inputs.languageDB }}"
- 
+      
       - name: Remove cloned repo
         run: |
           rm -r GoSELL-Automation
