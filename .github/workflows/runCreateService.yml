@@ -80,7 +80,7 @@ jobs:
 
       - name: Confirm changes
         run: |
-          cd gitlab-source
+          cd GoSELL-Automation
           cat .env
  
       - name: Set up Java
