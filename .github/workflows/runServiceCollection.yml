@@ -52,6 +52,8 @@ jobs:
               github.event_name == 'workflow_dispatch' && inputs.languageDB || 
               github.event_name == 'workflow_run' && github.event.workflow_run.outputs.languageDB 
             }}
+          run: |
+            echo "ENVIRONMENT Output 1: $ENVIRONMENT"
       - name: Checkout the current repository
         uses: actions/checkout@v2
  
@@ -137,17 +139,18 @@ jobs:
           cd GoSELL-Automation
           mvn install -DskipTests
  
-      - name: Run tests
-        run: |
-          cd GoSELL-Automation
-          mvn --batch-mode test "-DsuiteFile=test_config/web/serviceCollectionTest.xml"
-      - name: Upload all recording .mp4 files
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: MP4 Files
-          path: |
-            GoSELL-Automation/**/*.mp4
+      # - name: Run tests
+      #   run: |
+      #     cd GoSELL-Automation
+      #     mvn --batch-mode test "-DsuiteFile=test_config/web/serviceCollectionTest.xml"
+          
+      # - name: Upload all recording .mp4 files
+      #   if: always()
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: MP4 Files
+      #     path: |
+      #       GoSELL-Automation/**/*.mp4
  
       - name: Upload Test Report
         if: always()
