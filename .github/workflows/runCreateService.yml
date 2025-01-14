@@ -1,10 +1,35 @@
 name: '[Dashboard][SF] CreateService'
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests'
+        type: environment
+        default: "STAG"
+        options:
+          - CA
+          - STAG
+          - PROD
+          - PREPROD
+      languageSF:
+        description: 'Language on SSR to run tests'
+        default: "VIE"
+        options:
+          - VIE
+          - ENG
+      languageDB:
+        description: 'Language on Dashboard to run tests'
+        default: "VIE"
+        options:
+          - VIE
+          - ENG
 jobs:
   clone-git-then-build-test:
     runs-on: ubuntu-20.04
- 
+    outputs:
+          environment: ${{ steps.set-data.outputs.environment }}
+          languageSF: ${{ steps.set-data.outputs.languageSF }}
+          languageDB: ${{ steps.set-data.outputs.languageDB }}
     steps:
       - name: Checkout the current repository
         uses: actions/checkout@v2
@@ -43,11 +68,21 @@ jobs:
       - name: Stop OpenVPN
         run: |
           sudo pkill -f openvpn
- 
       - name: Switch to another branch
         run: |
           cd GoSELL-Automation
           git checkout main
+      - name: Replace env variables
+        run: |
+          cd GoSELL-Automation
+          sed -i 's|environment=.*|environment=${{ inputs.environment }}|' config.properties
+          sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' config.properties
+          sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' config.properties
+
+      - name: Confirm changes
+        run: |
+          cd gitlab-source
+          cat .env
  
       - name: Set up Java
         uses: actions/setup-java@v3
@@ -102,6 +137,12 @@ jobs:
             **/reportng.js
             **/suite*_test*_results.html
             **/ExtentReport.html
+      - name: Set data
+        id: set-data
+        run: |
+          echo "::set-output name=environment::${{ inputs.environment }}"
+          echo "::set-output name=languageSF::${{ inputs.languageSF }}"
+          echo "::set-output name=languageDB::${{ inputs.languageDB }}"
  
       - name: Remove cloned repo
         run: |
