@@ -29,25 +29,6 @@ jobs:
   clone-git-then-build-test:
     runs-on: ubuntu-20.04
     steps:
-      - name: Determine config variable
-        env:
-          ENVIRONMENT:
-            ${{ 
-              github.event_name == 'workflow_dispatch' && inputs.environment || 
-              github.event_name == 'workflow_run' && github.event.workflow_run.outputs.environment 
-            }}
-          LANGUAGE_SF:
-            ${{ 
-              github.event_name == 'workflow_dispatch' && inputs.languageSF || 
-              github.event_name == 'workflow_run' && github.event.workflow_run.outputs.languageSF 
-            }}
-          LANGUAGE_DB:
-            ${{ 
-              github.event_name == 'workflow_dispatch' && inputs.languageDB || 
-              github.event_name == 'workflow_run' && github.event.workflow_run.outputs.languageDB 
-            }}
-          run: |
-            echo "ENVIRONMENT Output 1: $ENVIRONMENT"
       - name: Checkout the current repository
         uses: actions/checkout@v2
  
