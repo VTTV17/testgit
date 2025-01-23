@@ -97,7 +97,8 @@ jobs:
           sed -i 's|environment=.*|environment=${{ inputs.environment }}|' src/main/resources/config.properties
           sed -i 's|languageSF=.*|languageSF=${{ inputs.languageSF }}|' src/main/resources/config.properties
           sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' src/main/resources/config.properties
-
+          sed -i 's|headless=.*|headless=true|' src/main/resources/config.properties
+          sed -i 's|enableProxy=.*|enableProxy=false|' src/main/resources/config.properties
       - name: Confirm changes
         run: |
           cd GoSELL-Automation
