@@ -123,7 +123,7 @@ jobs:
           mvn --batch-mode test "-DsuiteFile=test_config/web/BuyLinkTest.xml"
       - name: Upload all recording .mp4 files
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MP4 Files
           path: |
