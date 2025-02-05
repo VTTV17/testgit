@@ -28,7 +28,6 @@ on:
 jobs:
   automation:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout the current repository
         uses: actions/checkout@v2
@@ -142,5 +141,5 @@ jobs:
             **/suite*_test*_results.html
             **/ExtentReport.html
       - name: Remove cloned repo
-          run:|
+        run: |
             rm -r GoSELL-Automation
