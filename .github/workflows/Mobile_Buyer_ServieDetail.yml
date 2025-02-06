@@ -1,4 +1,4 @@
-name: '[Buyer] My profile'
+name: '[Buyer] Service detail'
 on:
   workflow_dispatch:
       inputs:
