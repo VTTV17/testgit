@@ -25,6 +25,20 @@ on:
           options:
             - VIE
             - ENG
+        java_version:
+          description: 'The version of Java to install.'
+          required: false
+          default: '22'
+      
+        api_level:
+          description: 'The SDK level'
+          required: false
+          default: '35'
+      
+        node_version:
+          description: 'The version of NodeJS to install.'
+          required: false
+          default: '21'
 jobs:
   automation:
     runs-on: ubuntu-20.04
@@ -87,7 +101,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '22'
+          java-version: ${{ inputs.java_version }}
           distribution: 'adopt'
  
       - name: Cache Maven packages
@@ -114,7 +128,7 @@ jobs:
       - name: Setup Android SDK and Emulator
         uses: android-actions/setup-android@v2
         with:
-          api-level: 30
+          api-level: 35
           target: default
           emulator-options: '-no-window -gpu swiftshader_indirect'
 
@@ -123,7 +137,24 @@ jobs:
           echo "Starting Android emulator..."
           nohup emulator -avd testAVD -no-window -gpu swiftshader_indirect &
           sleep 60  # Đợi emulator khởi động
-      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node_version }}
+  
+      - name: Install Appium
+        run: npm install -g appium > /dev/null 2>&1
+        shell: bash
+  
+      - name: Install UIAutomator2 driver
+        run: appium driver install uiautomator2 > /dev/null 2>&1
+        shell: bash
+  
+      - name: Start Appium server
+        run: |
+          nohup appium -a 127.0.0.1 -p 4723 -pa /wd/hub > appium_log.txt 2>&1 & > /dev/null 2>&1
+        shell: bash
+        
       - name: Run tests
         run: |
           cd GoSELL-Automation
