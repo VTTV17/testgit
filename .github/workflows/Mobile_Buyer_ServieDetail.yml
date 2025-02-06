@@ -124,7 +124,6 @@ jobs:
         run: |
           cd GoSELL-Automation
           mvn install -DskipTests > /dev/null 2>&1
-          shell: bash 
       
       - name: Setup Android SDK and Emulator
         uses: android-actions/setup-android@v2
@@ -146,17 +145,14 @@ jobs:
   
       - name: Install Appium
         run: npm install -g appium > /dev/null 2>&1
-        shell: bash
   
       - name: Install UIAutomator2 driver
         run: appium driver install uiautomator2 > /dev/null 2>&1
-        shell: bash
-  
+        
       - name: Start Appium server
         run: |
           nohup appium -a 127.0.0.1 -p 4723 -pa /wd/hub > appium_log.txt 2>&1 & > /dev/null 2>&1
-        shell: bash
-        
+          
       - name: Run tests
         run: |
           cd GoSELL-Automation
