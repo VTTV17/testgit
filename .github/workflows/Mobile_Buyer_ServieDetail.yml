@@ -162,6 +162,7 @@ jobs:
         with:
           test_name: 'Buyer - Service detail'
           scripts:
+            cd GoSELL-Automation
             mvn test "-DsuiteFile=test_config/android/buyer/BuyerServiceDetail.xml"
           
       - name: Upload Test Report
