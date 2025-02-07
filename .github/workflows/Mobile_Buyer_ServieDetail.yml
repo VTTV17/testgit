@@ -157,19 +157,59 @@ jobs:
       #   run: |
       #     cd GoSELL-Automation
       #     mvn test "-DsuiteFile=test_config/android/buyer/BuyerServiceDetail.xml"
-      - name: excute android test
-        uses: ThangNguyen0495/execute-appium-android-test@v1.0.0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          test_name: 'Buyer - Service detail'
-          scripts:
-            cd GoSELL-Automation
-            mvn test "-DsuiteFile=test_config/android/buyer/BuyerServiceDetail.xml"
+          distribution: 'temurin'
+          java-version: ${{ inputs.java_version }}
+
+      - name: Install FFmpeg
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update > /dev/null 2>&1
+          sudo apt-get install -y ffmpeg > /dev/null 2>&1
+        shell: bash
+
+      - name: Install FFmpeg
+        if: runner.os == 'macOS'
+        run: brew install ffmpeg > /dev/null 2>&1
+        shell: bash
+
+      - name: Create and start emulator
+        uses: ThangNguyen0495/create-android-emulator@v1.0.0
+        with:
+          api-level: ${{ inputs.api_level }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node_version }}
+  
+      - name: Install Appium
+        run: npm install -g appium > /dev/null 2>&1
+  
+      - name: Install UIAutomator2 driver
+        run: appium driver install uiautomator2 > /dev/null 2>&1
+  
+      - name: Start Appium server
+        run: nohup appium -a 0.0.0.0 -p 4723 -pa /wd/hub > appium_log.txt 2>&1 & > /dev/null 2>&1
+  
+      - name: Install dependencies
+        run: |
+          cd GoSELL-Automation
+          mvn install -DskipTests > /dev/null 2>&1
+  
+      - name: Run Appium tests with Maven
+        run: |
+          cd GoSELL-Automation
+          mvn test "-DsuiteFile=test_config/android/buyer/BuyerServiceDetail.xml"
           
       - name: Upload Test Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Test Reports
+          name: Test Reports - Buyer Service Detail
           path: |
             **/html/index.html
             **/reportng.css
