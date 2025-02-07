@@ -97,67 +97,7 @@ jobs:
         run: |
           cd GoSELL-Automation
           cat src/main/resources/config.properties
- 
-      # - name: Set up Java
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     java-version: ${{ inputs.java_version }}
-      #     distribution: 'adopt'
- 
-      # - name: Cache Maven packages
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.m2/repository
-      #     key: ${{ runner.os }}-maven-ubuntu
-      #     restore-keys: |
-      #       ${{ runner.os }}-maven-
- 
-      # - name: Cache Maven packages
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.m2/repository
-      #     key: ${{ runner.os }}-maven-ubuntu
-      #     restore-keys: |
-      #       ${{ runner.os }}-maven-ubuntu
- 
-      # - name: Install dependencies
-      #   run: |
-      #     cd GoSELL-Automation
-      #     mvn install -DskipTests > /dev/null 2>&1
-      
-      # - name: Setup Android SDK and Emulator
-      #   uses: android-actions/setup-android@v2
-      #   with:
-      #     api-level: 35
-      #     target: default
-      #     emulator-options: '-no-window -gpu swiftshader_indirect'
-
-      # - name: Start Android emulator
-      #   run: |
-      #     echo "Starting Android emulator..."
-      #     nohup emulator -avd testAVD -no-window -gpu swiftshader_indirect &
-      #     sleep 60  # Đợi emulator khởi động
           
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ inputs.node_version }}
-  
-      # - name: Install Appium
-      #   run: npm install -g appium > /dev/null 2>&1
-  
-      # - name: Install UIAutomator2 driver
-      #   run: appium driver install uiautomator2 > /dev/null 2>&1
-        
-      # - name: Start Appium server
-      #   run: |
-      #     nohup appium -a 127.0.0.1 -p 4723 -pa /wd/hub > appium_log.txt 2>&1 & > /dev/null 2>&1
-          
-      # - name: Run tests
-      #   run: |
-      #     cd GoSELL-Automation
-      #     mvn test "-DsuiteFile=test_config/android/buyer/BuyerServiceDetail.xml"
-
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -216,6 +156,7 @@ jobs:
             **/reportng.js
             **/suite*_test*_results.html
             **/ExtentReport.html
+            
       - name: Remove cloned repo
         run: |
             rm -r GoSELL-Automation
