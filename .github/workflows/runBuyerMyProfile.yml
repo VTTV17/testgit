@@ -1,4 +1,4 @@
-name: '[Buyer] My profile'
+name: '[Android] My profile'
 on:
   workflow_dispatch:
       inputs:
