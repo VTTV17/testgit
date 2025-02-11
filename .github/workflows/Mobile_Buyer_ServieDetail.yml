@@ -1,4 +1,4 @@
-name: '[Buyer] Service detail'
+name: '[Android] Service detail'
 on:
   workflow_dispatch:
       inputs:
