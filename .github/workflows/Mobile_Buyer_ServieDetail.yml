@@ -138,10 +138,9 @@ jobs:
       - name: Install dependencies
         run: |
           cd GoSELL-Automation
-          ls -d */
           # mvn install -DskipTests > /dev/null 2>&1
           sudo apt update
-          sudo apt install maven -y
+          sudo apt install maven -y > /dev/null 2>&1
           mvn -version
 
       - name: Run Appium tests with Maven
