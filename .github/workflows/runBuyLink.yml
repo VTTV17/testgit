@@ -102,14 +102,6 @@ jobs:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-ubuntu
           restore-keys: |
-            ${{ runner.os }}-maven-
- 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-ubuntu
-          restore-keys: |
             ${{ runner.os }}-maven-ubuntu
  
       - name: Install dependencies
