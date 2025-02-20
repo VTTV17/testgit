@@ -1,4 +1,4 @@
-name: '[Android] Service detail'
+name: '[Android] Seller Customer test'
 on:
   workflow_dispatch:
       inputs:
@@ -146,13 +146,13 @@ jobs:
       - name: Run Appium tests with Maven
         run: |
           cd GoSELL-Automation
-          mvn test "-DsuiteFile=test_config/android/buyer/BuyerCustomerTest.xml"
+          mvn test "-DsuiteFile=test_config/android/seller/SellerCustomerTest.xml"
           
       - name: Upload Test Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Test Reports - Buyer Service Detail
+          name: Test Reports - Seller Customer Test
           path: |
             **/html/index.html
             **/reportng.css
