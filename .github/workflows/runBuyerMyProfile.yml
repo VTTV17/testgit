@@ -106,19 +106,19 @@ jobs:
         if: inputs.environment == 'STAG'
         run: |
           cd GoSELL-Automation
-          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/stag.properties
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi=emulator-5554|" src/main/resources/environment/stag.properties
       
       - name: Update CA environment
         if: inputs.environment == 'CA'
         run: |
           cd GoSELL-Automation
-          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/ca.properties
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi=emulator-5554|" src/main/resources/environment/ca.properties
       
       - name: Update PROD environment
         if: inputs.environment == 'PROD'
         run: |
           cd GoSELL-Automation
-          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/prod.properties
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi=emulator-5554|" src/main/resources/environment/prod.properties
       
       - name: Update PREPROD environment
         if: inputs.environment == 'PREPROD'
