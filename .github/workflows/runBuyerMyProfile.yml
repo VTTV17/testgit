@@ -92,6 +92,14 @@ jobs:
           sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' src/main/resources/config.properties
           sed -i 's|headless=.*|headless=true|' src/main/resources/config.properties
           sed -i 's|enableProxy=.*|enableProxy=false|' src/main/resources/config.properties
+          if ${{ inputs.environment }} == 'STAG'
+            sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/stag.properties
+          if ${{ inputs.environment }} == 'CA'
+            sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/ca.properties
+          if ${{ inputs.environment }} == 'PROD'
+            sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/prod.properties
+          if ${{ inputs.environment }} == 'PREPROD'
+            sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/stag.properties
 
       - name: Confirm changes
         run: |
