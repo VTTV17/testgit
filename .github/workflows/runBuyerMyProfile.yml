@@ -92,19 +92,45 @@ jobs:
           sed -i 's|languageDB=.*|languageDB=${{ inputs.languageDB }}|' src/main/resources/config.properties
           sed -i 's|headless=.*|headless=true|' src/main/resources/config.properties
           sed -i 's|enableProxy=.*|enableProxy=false|' src/main/resources/config.properties
-          if: ${{ inputs.environment }} == 'STAG'
-          run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/stag.properties
-          if: ${{ inputs.environment }} == 'CA'
-          run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/ca.properties
-          if: ${{ inputs.environment }} == 'PROD'
-          run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/prod.properties
-          if: ${{ inputs.environment }} == 'PREPROD'
-          run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/preprod.properties
+          
+          # if: ${{ inputs.environment }} == 'STAG'
+          # sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/stag.properties
+          # if: ${{ inputs.environment }} == 'CA'
+          # sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/ca.properties
+          # if: ${{ inputs.environment }} == 'PROD'
+          # sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/prod.properties
+          # if: ${{ inputs.environment }} == 'PREPROD'
+          # run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/preprod.properties
 
+      - name: Update STAG environment
+        if: inputs.environment == 'STAG'
+        run: |
+          cd GoSELL-Automation
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/stag.properties
+      
+      - name: Update CA environment
+        if: inputs.environment == 'CA'
+        run: |
+          cd GoSELL-Automation
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/ca.properties
+      
+      - name: Update PROD environment
+        if: inputs.environment == 'PROD'
+        run: |
+          cd GoSELL-Automation
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/prod.properties
+      
+      - name: Update PREPROD environment
+        if: inputs.environment == 'PREPROD'
+        run: |
+          cd GoSELL-Automation
+          sed -i "s|udidAndroidVi=.*|udidAndroidVi='emulator-5554'|" src/main/resources/environment/preprod.properties
+          
       - name: Confirm changes
         run: |
           cd GoSELL-Automation
           cat src/main/resources/config.properties
+          cat src/main/resources/environment/stag.properties
           
       - name: Set up JDK
         uses: actions/setup-java@v3
