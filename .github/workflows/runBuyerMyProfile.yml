@@ -99,7 +99,7 @@ jobs:
           if: ${{ inputs.environment }} == 'PROD'
           run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/prod.properties
           if: ${{ inputs.environment }} == 'PREPROD'
-          run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/prepro.properties
+          run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/preprod.properties
 
       - name: Confirm changes
         run: |
