@@ -187,7 +187,9 @@ jobs:
             adb shell settings put system font_scale 1.0
             adb shell wm size 1080x2400
             cd GoSELL-Automation
-            ls -d */
+            ls -la
+            cd GoSELL-Automation
+            ls -la
             mvn --batch-mode test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
       # - name: Run Appium tests with Maven
