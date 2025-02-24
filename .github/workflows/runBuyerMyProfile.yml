@@ -129,18 +129,7 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ inputs.java_version }}
 
-      - name: Install FFmpeg
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update > /dev/null 2>&1
-          sudo apt-get install -y ffmpeg > /dev/null 2>&1
-        shell: bash
-
-      - name: Install FFmpeg
-        if: runner.os == 'macOS'
-        run: brew install ffmpeg > /dev/null 2>&1
-        shell: bash
-
+    
       # - name: Create and start emulator
       #   uses: ThangNguyen0495/create-android-emulator@main
       #   with:
@@ -198,7 +187,8 @@ jobs:
             adb shell settings put system font_scale 1.0
             adb shell wm size 1080x2400
             cd GoSELL-Automation
-            mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+            ls -d */
+            mvn --batch-mode test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
       # - name: Run Appium tests with Maven
       #   run: |
