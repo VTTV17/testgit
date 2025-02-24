@@ -188,13 +188,13 @@ jobs:
             adb shell wm density 450
             adb shell settings put system font_scale 1.0  # Đặt font scale 120%
             adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
-          script: mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+          # script: mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
 
           
-      # - name: Run Appium tests with Maven
-      #   run: |
-      #     cd GoSELL-Automation
-      #     mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+      - name: Run Appium tests with Maven
+        run: |
+          cd GoSELL-Automation
+          mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
       - name: Upload Test Report
         if: always()
