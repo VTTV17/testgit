@@ -191,6 +191,7 @@ jobs:
             # ls -la
             # cd GoSELL-Automation
             ls -la
+            ./GoSELL-Automation
             mvn --batch-mode test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
       # - name: Run Appium tests with Maven
