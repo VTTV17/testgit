@@ -187,11 +187,9 @@ jobs:
         with:
           name: Test Reports - Buyer My Profile
           path: |
-            **/html/index.html
-            **/reportng.css
-            **/reportng.js
-            **/suite*_test*_results.html
             **/ExtentReport.html
+            **/BufferLog.log
+            **/appium_log.txt
             
       - name: Remove cloned repo
         run: |
