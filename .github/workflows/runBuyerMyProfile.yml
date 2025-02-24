@@ -182,13 +182,14 @@ jobs:
           #   adb shell wm density 450
           #   adb shell settings put system font_scale 1.0  # Đặt font scale 100%
           #   adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
+          pre-emulator-launch-script: cd GoSELL-Automation
           script: |
             adb shell wm density 450
             adb shell settings put system font_scale 1.0
             adb shell wm size 1080x2400
-            cd GoSELL-Automation
-            ls -la
-            cd GoSELL-Automation
+            # cd GoSELL-Automation
+            # ls -la
+            # cd GoSELL-Automation
             ls -la
             mvn --batch-mode test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
