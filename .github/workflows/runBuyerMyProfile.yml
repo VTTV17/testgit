@@ -93,15 +93,6 @@ jobs:
           sed -i 's|headless=.*|headless=true|' src/main/resources/config.properties
           sed -i 's|enableProxy=.*|enableProxy=false|' src/main/resources/config.properties
           
-          # if: ${{ inputs.environment }} == 'STAG'
-          # sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/stag.properties
-          # if: ${{ inputs.environment }} == 'CA'
-          # sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/ca.properties
-          # if: ${{ inputs.environment }} == 'PROD'
-          # sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/prod.properties
-          # if: ${{ inputs.environment }} == 'PREPROD'
-          # run sed -i 's|udidAndroidVi=.*|udidAndroidVi='emulator-5554' |' src/main/resources/environment/preprod.properties
-
       - name: Update STAG environment
         if: inputs.environment == 'STAG'
         run: |
@@ -150,10 +141,28 @@ jobs:
         run: brew install ffmpeg > /dev/null 2>&1
         shell: bash
 
-      - name: Create and start emulator
-        uses: ThangNguyen0495/create-android-emulator@main
+      # - name: Create and start emulator
+      #   uses: ThangNguyen0495/create-android-emulator@main
+      #   with:
+      #     api-level: ${{ inputs.api_level }}
+
+      - name: Start Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ inputs.api_level }}
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: pixel_4
+          avd-name: test-emulator
+          disable-animations: true
+          script: adb devices
+          
+      - name: Configure Screen DPI
+        run: |
+          adb shell wm density 450   # Đặt DPI về 320 (XHDPI)
+          adb shell settings put secure display_density_forced 320
+          adb shell settings put system font_scale 1.0  # Đặt font scale 120%
+          adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
