@@ -146,23 +146,13 @@ jobs:
       #   with:
       #     api-level: ${{ inputs.api_level }}
 
-      - name: Start Android Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 33
-          target: google_apis
-          arch: x86_64
-          profile: pixel_4
-          avd-name: test-emulator
-          disable-animations: true
-          script: adb devices
-          
-      - name: Configure Screen DPI
-        run: |
-          adb shell wm density 450   # Đặt DPI về 320 (XHDPI)
-          adb shell settings put secure display_density_forced 320
-          adb shell settings put system font_scale 1.0  # Đặt font scale 120%
-          adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
+     
+      # - name: Configure Screen DPI
+      #   run: |
+      #     adb shell wm density 450   # Đặt DPI về 320 (XHDPI)
+      #     adb shell settings put secure display_density_forced 320
+      #     adb shell settings put system font_scale 1.0  # Đặt font scale 120%
+      #     adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -184,11 +174,27 @@ jobs:
           sudo apt update
           sudo apt install maven -y > /dev/null 2>&1
           mvn -version
-  
-      - name: Run Appium tests with Maven
-        run: |
-          cd GoSELL-Automation
-          mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+
+      - name: Start Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 33
+          target: google_apis
+          arch: x86_64
+          profile: pixel_4
+          avd-name: test-emulator
+          disable-animations: true
+          pre-emulator-launch-script: |
+            adb shell wm density 450
+            adb shell settings put system font_scale 1.0  # Đặt font scale 120%
+            adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
+          script: mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+
+          
+      # - name: Run Appium tests with Maven
+      #   run: |
+      #     cd GoSELL-Automation
+      #     mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
       - name: Upload Test Report
         if: always()
