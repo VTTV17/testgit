@@ -130,18 +130,17 @@ jobs:
           java-version: ${{ inputs.java_version }}
 
     
-      # - name: Create and start emulator
-      #   uses: ThangNguyen0495/create-android-emulator@main
-      #   with:
-      #     api-level: ${{ inputs.api_level }}
+      - name: Create and start emulator
+        uses: ThangNguyen0495/create-android-emulator@main
+        with:
+          api-level: ${{ inputs.api_level }}
 
      
-      # - name: Configure Screen DPI
-      #   run: |
-      #     adb shell wm density 450   # Đặt DPI về 320 (XHDPI)
-      #     adb shell settings put secure display_density_forced 320
-      #     adb shell settings put system font_scale 1.0  # Đặt font scale 120%
-      #     adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
+      - name: Configure Screen DPI
+        run: |
+          adb shell wm density 450   # Đặt DPI về 320 (XHDPI)
+          adb shell settings put system font_scale 1.0  # Đặt font scale 120%
+          adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -164,40 +163,40 @@ jobs:
           sudo apt install maven -y > /dev/null 2>&1
           mvn -version
           
-      - name: Enable KVM
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-      - name: Start Android Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 33
-          target: google_apis
-          arch: x86_64
-          profile: pixel_4_xl
-          avd-name: test-emulator
-          disable-animations: true
-          # pre-emulator-launch-script: |
-          #   adb shell wm density 450
-          #   adb shell settings put system font_scale 1.0  # Đặt font scale 100%
-          #   adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
-          pre-emulator-launch-script: cd GoSELL-Automation
-          script: |
-            adb shell wm density 450
-            adb shell settings put system font_scale 1.0
-            adb shell wm size 1080x2400
-            # cd GoSELL-Automation
-            # ls -la
-            # cd GoSELL-Automation
-            ls -la
-            ./GoSELL-Automation
-            mvn --batch-mode test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
-          
-      # - name: Run Appium tests with Maven
+      # - name: Enable KVM
       #   run: |
-      #     cd GoSELL-Automation
-      #     mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+      #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+      #     sudo udevadm control --reload-rules
+      #     sudo udevadm trigger --name-match=kvm
+      # - name: Start Android Emulator
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: 33
+      #     target: google_apis
+      #     arch: x86_64
+      #     profile: pixel_4_xl
+      #     avd-name: test-emulator
+      #     disable-animations: true
+      #     # pre-emulator-launch-script: |
+      #     #   adb shell wm density 450
+      #     #   adb shell settings put system font_scale 1.0  # Đặt font scale 100%
+      #     #   adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
+      #     pre-emulator-launch-script: cd GoSELL-Automation
+      #     script: |
+      #       adb shell wm density 450
+      #       adb shell settings put system font_scale 1.0
+      #       adb shell wm size 1080x2400
+      #       # cd GoSELL-Automation
+      #       # ls -la
+      #       # cd GoSELL-Automation
+      #       ls -la
+      #       ./GoSELL-Automation
+      #       mvn --batch-mode test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+          
+      - name: Run Appium tests with Maven
+        run: |
+          cd GoSELL-Automation
+          mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
           
       - name: Upload Test Report
         if: always()
