@@ -81,6 +81,11 @@ jobs:
         run: |
           cd GoSELL-Automation
           git checkout main
+          
+      - name: Stop OpenVPN
+        run: |
+          sudo pkill -f openvpn
+          
       - name: Replace env variables
         run: |
           cd GoSELL-Automation
@@ -163,10 +168,6 @@ jobs:
         run: |
           cd GoSELL-Automation
           mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
-
-      - name: Stop OpenVPN
-        run: |
-          sudo pkill -f openvpn
           
       - name: Upload Test Report
         if: always()
