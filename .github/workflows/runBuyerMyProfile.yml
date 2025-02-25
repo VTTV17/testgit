@@ -77,9 +77,6 @@ jobs:
         run: |
           git clone ${{ secrets.GITLAB_REPOSITORY }} GoSELL-Automation
  
-      - name: Stop OpenVPN
-        run: |
-          sudo pkill -f openvpn
       - name: Switch to another branch
         run: |
           cd GoSELL-Automation
@@ -197,6 +194,10 @@ jobs:
         run: |
           cd GoSELL-Automation
           mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+
+      - name: Stop OpenVPN
+        run: |
+          sudo pkill -f openvpn
           
       - name: Upload Test Report
         if: always()
