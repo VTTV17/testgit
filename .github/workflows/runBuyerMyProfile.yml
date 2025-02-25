@@ -45,7 +45,24 @@ jobs:
     steps:
       - name: Checkout the current repository
         uses: actions/checkout@v2
- 
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+            distribution: 'temurin'
+            java-version: ${{ inputs.java_version }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node_version }}
+  
+      - name: Install Appium
+        run: npm install -g appium > /dev/null 2>&1
+  
+      - name: Install UIAutomator2 driver
+        run: appium driver install uiautomator2 > /dev/null 2>&1
+            
       - name: Install OpenVPN
         run: |
           sudo apt update -y
@@ -82,9 +99,6 @@ jobs:
           cd GoSELL-Automation
           git checkout main
           
-      - name: Stop OpenVPN
-        run: |
-          sudo pkill -f openvpn
           
       - name: Replace env variables
         run: |
@@ -124,11 +138,6 @@ jobs:
           cd GoSELL-Automation
           cat src/main/resources/config.properties
           
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: ${{ inputs.java_version }}
 
     
       - name: Create and start emulator
@@ -143,16 +152,7 @@ jobs:
           adb shell settings put system font_scale 1.0  # Đặt font scale 120%
           adb shell wm size 1080x2400  # Đặt độ phân giải màn hình
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ inputs.node_version }}
-  
-      - name: Install Appium
-        run: npm install -g appium > /dev/null 2>&1
-  
-      - name: Install UIAutomator2 driver
-        run: appium driver install uiautomator2 > /dev/null 2>&1
+      
   
       - name: Start Appium server
         run: nohup appium -a 0.0.0.0 -p 4723 -pa /wd/hub > appium_log.txt 2>&1 & > /dev/null 2>&1
@@ -168,6 +168,9 @@ jobs:
         run: |
           cd GoSELL-Automation
           mvn test "-DsuiteFile=test_config/android/buyer/BuyerMyProfile.xml"
+      - name: Stop OpenVPN
+        run: |
+          sudo pkill -f openvpn
           
       - name: Upload Test Report
         if: always()
