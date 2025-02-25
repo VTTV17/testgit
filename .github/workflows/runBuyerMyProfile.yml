@@ -31,7 +31,7 @@ on:
           default: '22'
       
         api_level:
-          description: 'The SDK level'
+          description: 'The API level for android'
           required: false
           default: '35'
       
@@ -118,7 +118,6 @@ jobs:
         run: |
           cd GoSELL-Automation
           cat src/main/resources/config.properties
-          cat src/main/resources/environment/stag.properties
           
       - name: Set up JDK
         uses: actions/setup-java@v4
