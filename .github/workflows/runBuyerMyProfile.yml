@@ -121,7 +121,7 @@ jobs:
           cat src/main/resources/environment/stag.properties
           
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4.7.0
         with:
           distribution: 'temurin'
           java-version: ${{ inputs.java_version }}
