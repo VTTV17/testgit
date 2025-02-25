@@ -120,6 +120,7 @@ jobs:
           - test_config/android/buyer/BuyerMyProfile.xml
           - test_config/android/buyer/BuyerServiceDetail.xml
           - test_config/android/buyer/productCollectionTest.xml
+    needs: Run-on-web
     runs-on: ubuntu-latest
     steps:
       - name: clone source
